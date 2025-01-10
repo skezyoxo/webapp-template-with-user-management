@@ -4,13 +4,13 @@ import * as React from 'react';
 import { Moon, Sun, Palette } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-import { Button } from '@/components/ui/button';
+import { Button } from './ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from './ui/dropdown-menu';
 
 const themes = [
   { name: 'Light', value: 'light', icon: Sun },

@@ -8,6 +8,8 @@ This is a modern web application template built with Next.js, featuring user man
 - PostgreSQL support (with flexible hosting options)
 - Role-Based Access Control (RBAC)
 - Modern UI with Tailwind CSS
+- Comprehensive testing with Jest and React Testing Library
+- Code quality tools (ESLint, Prettier, Husky)
 
 ## Features
 
@@ -256,3 +258,78 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Test Line
 This is a test line to verify the pre-commit hook.
+
+## Testing Infrastructure
+
+The template includes a comprehensive testing setup with:
+
+### Testing Framework
+- Jest for test running and assertions
+- React Testing Library for component testing
+- User-event for simulating user interactions
+- Jest DOM for DOM-specific assertions
+
+### Test Structure
+- Tests are located in `__tests__` directories next to the components they test
+- Test files use `.test.tsx` or `.spec.tsx` suffix
+- Configured for TypeScript support
+- Automatic test discovery and running
+
+### Running Tests
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
+### Test Coverage
+- Automatic coverage reporting
+- Configurable coverage thresholds
+- Coverage reports for:
+  - Statements
+  - Branches
+  - Functions
+  - Lines
+
+### Mocked Dependencies
+- Next.js Router
+- NextAuth.js session management
+- Theme provider
+- API responses
+
+## Code Quality Tools
+
+### ESLint
+- Configured for Next.js and TypeScript
+- Integration with Prettier
+- Custom rules for React best practices
+- Automatic fixing capabilities
+
+### Prettier
+- Consistent code formatting
+- Configured for TypeScript and React
+- Integrated with ESLint
+- Pre-commit formatting
+
+### Husky
+- Git hooks management
+- Pre-commit checks:
+  - Code formatting
+  - Linting
+  - Type checking
+  - Test running
+- Prevents commits with failing tests or lint errors
+
+### Lint Staged
+- Runs checks only on staged files
+- Optimizes pre-commit performance
+- Configured for:
+  - JavaScript/TypeScript files
+  - JSON files
+  - Markdown
+  - CSS
