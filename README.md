@@ -1,6 +1,8 @@
 # Next.js Web Application Template with User Management
 
-A production-ready template for building modern web applications with Next.js 14. This template provides a solid foundation with pre-configured user management, authentication, database setup, and a beautiful UI. Clone this template to quickly start building your own web application with all the essential features and best practices already in place.
+A production-ready, full-stack TypeScript application built with Next.js 14. This template provides a solid foundation with pre-configured user management, authentication, and database setup. Built using PostgreSQL for data storage (with Prisma ORM) and styled with Tailwind CSS and Shadcn/UI components, it offers a modern and beautiful UI out of the box. Authentication is handled by NextAuth.js, providing a secure and flexible user management system. The entire application is type-safe and follows modern development practices with comprehensive testing and code quality tools.
+
+Clone this template to quickly start building your own web application with all the essential features and best practices already in place.
 
 ## 🚀 Getting Started
 
@@ -155,7 +157,7 @@ RATE_LIMIT_WINDOW_MS="900000" # 15 minutes
 
 1. Clone and rename the template:
    ```bash
-   git clone https://github.com/yourusername/webapp-with-user-management.git my-webapp
+   git clone https://github.com/skezyoxo/webapp-template-with-user-management.git my-webapp
    cd my-webapp
    ```
 
@@ -192,6 +194,111 @@ RATE_LIMIT_WINDOW_MS="900000" # 15 minutes
    ```
 
 Visit [http://localhost:3000](http://localhost:3000) to see your application.
+
+## 📚 Deployment
+
+### Vercel Deployment (Recommended)
+1. Fork this repository
+2. Create a new project on [Vercel](https://vercel.com)
+3. Import your forked repository
+4. Configure environment variables in Vercel's dashboard:
+   - `DATABASE_URL`: Your PostgreSQL connection string
+   - `NEXTAUTH_URL`: Your production URL (e.g., https://your-app.vercel.app)
+   - `NEXTAUTH_SECRET`: Generate with `openssl rand -base64 32`
+   - `GITHUB_ID` and `GITHUB_SECRET`: From your GitHub OAuth app
+   - `LOG_LEVEL`: Set to "info" for production
+   - `RATE_LIMIT_MAX` and `RATE_LIMIT_WINDOW_MS`: Adjust based on your needs
+5. Update your GitHub OAuth app:
+   - Go to your GitHub OAuth app settings
+   - Add your Vercel deployment URL to the callback URLs:
+     - `https://your-app.vercel.app/api/auth/callback/github`
+6. Deploy! Vercel will automatically build and deploy your application
+
+### Railway/Supabase Database Deployment
+1. Create a new project on [Railway](https://railway.app) or [Supabase](https://supabase.com)
+2. Create a new PostgreSQL database
+3. Get your database connection details:
+   - For Railway: Use the connection URL provided in your project settings
+   - For Supabase: Get the connection string from Database Settings > Connection String > URI
+4. Configure environment variables:
+   - Set all the same variables as in Vercel deployment
+   - Update `DATABASE_URL` with your new database connection string
+5. Run database migrations:
+   ```bash
+   npx prisma db push
+   npx prisma db seed
+   ```
+
+### Manual Deployment
+1. Build the application:
+   ```bash
+   npm run build
+   ```
+2. Start the production server:
+   ```bash
+   npm start
+   ```
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### Database Connection Issues
+- **Error**: `Can't reach database server`
+  - Check if PostgreSQL is running
+  - Verify DATABASE_URL format
+  - Ensure database server is accessible from deployment environment
+  - Check if IP is whitelisted in database configuration
+
+#### Authentication Problems
+- **Error**: OAuth login not working
+  - Verify GITHUB_ID and GITHUB_SECRET are correct
+  - Ensure OAuth callback URLs are configured correctly
+  - Check if NEXTAUTH_URL matches your deployment URL
+  - Clear browser cookies and try again
+
+#### Build Failures
+- **Error**: Build failing on deployment
+  - Run `npm run build` locally first to identify issues
+  - Check Node.js version compatibility
+  - Verify all environment variables are set
+  - Clear `.next` folder and node_modules, then rebuild
+
+#### Prisma Issues
+- **Error**: Prisma Client not generated
+  - Run `npx prisma generate` before building
+  - Ensure DATABASE_URL is accessible during build
+  - Check Prisma schema syntax
+  - Verify database permissions
+
+#### Rate Limiting
+- **Error**: Too many requests
+  - Adjust RATE_LIMIT_MAX and RATE_LIMIT_WINDOW_MS
+  - Check if you're behind a proxy and configure accordingly
+  - Implement proper load balancing for production
+
+### Performance Optimization
+1. Enable caching:
+   ```bash
+   npm run build
+   ```
+2. Optimize images and static assets
+3. Configure CDN for static content
+4. Enable compression middleware
+5. Implement proper database indexing
+
+### Debug Mode
+To enable detailed logging:
+1. Set LOG_LEVEL="debug" in .env
+2. Check logs/error.log and logs/combined.log
+3. Use browser developer tools for frontend issues
+4. Monitor database query performance
+
+For more help, please [open an issue](https://github.com/skezyoxo/webapp-template-with-user-management/issues) with:
+- Detailed error message
+- Steps to reproduce
+- Environment details (OS, Node version, etc.)
+- Relevant log outputs
 
 ## 📚 Project Structure
 
@@ -362,3 +469,12 @@ Built with these amazing technologies:
 - [Prisma](https://www.prisma.io/) - Database ORM
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 - [Shadcn/UI](https://ui.shadcn.com/) - UI components
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [PostgreSQL](https://www.postgresql.org/) - Database
+- [Winston](https://github.com/winstonjs/winston) - Logging
+- [React Hook Form](https://react-hook-form.com/) - Form handling
+- [Lucide React](https://lucide.dev/) - Icons
+- [Jest](https://jestjs.io/) - Testing
+- [ESLint](https://eslint.org/) - Linting
+- [Prettier](https://prettier.io/) - Code formatting
+- [Husky](https://typicode.github.io/husky/) - Git hooks
