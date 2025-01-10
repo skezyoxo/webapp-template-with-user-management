@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Boxes } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-switcher';
+import { UserAuthNav } from '@/components/user-auth-nav';
 import { cn } from '@/lib/utils';
 
 export function Navbar() {
@@ -59,6 +60,7 @@ export function Navbar() {
               </NavigationMenuList>
             </NavigationMenu>
             <ThemeToggle />
+            <UserAuthNav />
           </div>
         </div>
       </div>
