@@ -71,6 +71,17 @@ async function main() {
         action: 'manage',
       },
     }),
+    // User management permissions
+    prisma.permission.upsert({
+      where: { name: 'MANAGE_USER_PERMISSIONS' },
+      update: {},
+      create: {
+        name: 'MANAGE_USER_PERMISSIONS',
+        description: 'Can manage user permissions and roles',
+        resource: 'user',
+        action: 'manage_permissions',
+      },
+    }),
   ]);
 
   // Assign permissions to roles
