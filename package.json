@@ -8,15 +8,16 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "prepare": "husky",
-    "format": "prettier --write ."
+    "prepare": "husky install",
+    "format": "prettier --write .",
+    "lint-staged": "lint-staged"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{json,md}": [
+    "*.{json,md,css}": [
       "prettier --write"
     ]
   },
