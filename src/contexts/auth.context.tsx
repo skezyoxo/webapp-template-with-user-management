@@ -2,11 +2,11 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { AuthState, UserWithRole } from '@/types';
+import { AuthState, UserWithRole, Resource, Action } from '@/types';
 
 interface AuthContextType {
   authState: AuthState;
-  checkPermission: (resource: string, action: string) => boolean;
+  checkPermission: (resource: Resource, action: Action) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,9 +26,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
   }, [session, status]);
 
-  const checkPermission = (resource: string, action: string): boolean => {
+  const checkPermission = (resource: Resource, action: Action): boolean => {
     if (!authState.user?.role?.permissions) return false;
-
     return authState.user.role.permissions.some(
       permission => permission.resource === resource && permission.action === action
     );
@@ -45,4 +44,17 @@ export function useAuth() {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
+}
+
+export function usePermission(resource: Resource, action: Action): boolean {
+  const { authState, checkPermission } = useAuth();
+  return checkPermission(resource, action);
+}
+
+export function useAuthorize(resource: Resource, action: Action): boolean {
+  const hasPermission = usePermission(resource, action);
+  if (!hasPermission) {
+    throw new Error('Unauthorized');
+  }
+  return true;
 }
