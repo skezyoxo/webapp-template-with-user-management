@@ -2,7 +2,19 @@
   "extends": ["next/core-web-vitals", "prettier"],
   "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "semi": true,
+        "trailingComma": "es5",
+        "singleQuote": true,
+        "tabWidth": 2,
+        "useTabs": false,
+        "printWidth": 100,
+        "bracketSpacing": true,
+        "arrowParens": "avoid"
+      }
+    ],
     "no-unused-vars": "warn",
     "no-console": "warn"
   }
