@@ -33,6 +33,10 @@ model User {
   role    Role     @relation(fields: [roleId], references: [id])
   roleId  String   @db.Uuid
 
+  // Relationships
+  sessions    Session[]
+  accounts    Account[]
+
   // Timestamps
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -93,13 +97,38 @@ model RolePermission {
   @@map("role_permissions")
 }
 
-// For OAuth session management (optional, depending on your auth strategy)
+// For OAuth session management
 model Session {
   id            String   @id @default(uuid()) @db.Uuid
   sessionToken  String   @unique
   userId        String   @db.Uuid
   expires       DateTime
+  
+  // Add relation to User
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("sessions")
+}
+
+// For OAuth account linking
+model Account {
+  id                String  @id @default(uuid()) @db.Uuid
+  userId            String  @db.Uuid
+  type              String  // "oauth", "credentials", etc.
+  provider          String  // "github", "google", etc.
+  providerAccountId String  // ID from the provider
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
 }

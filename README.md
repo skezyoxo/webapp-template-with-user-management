@@ -3,10 +3,29 @@
 This is a modern web application template built with Next.js, featuring user management and database integration. It includes:
 
 - [Next.js](https://nextjs.org/) 14 with App Router
+- [NextAuth.js](https://next-auth.js.org/) v4 for Authentication
 - [Prisma](https://www.prisma.io/) for database ORM
 - PostgreSQL support (with flexible hosting options)
-- User authentication and management
+- Role-Based Access Control (RBAC)
 - Modern UI with Tailwind CSS
+
+## Features
+
+- Modern Next.js 14 with App Router
+- Authentication with NextAuth.js v4
+  - GitHub OAuth integration
+  - Support for multiple providers
+  - Session management
+  - Account linking
+- Role-Based Access Control (RBAC)
+  - Flexible role management
+  - Granular permissions
+  - Resource-based access control
+- Database integration with Prisma ORM
+- Flexible PostgreSQL hosting options
+- Responsive UI with Tailwind CSS
+- Dark mode support
+- Type safety with TypeScript
 
 ## Getting Started
 
@@ -16,6 +35,7 @@ Before you begin, ensure you have:
 - Node.js installed (v18 or later)
 - Access to a PostgreSQL database (self-hosted or cloud provider)
 - Git for version control
+- GitHub OAuth credentials (if using GitHub authentication)
 
 ### Setup Instructions
 
@@ -47,9 +67,17 @@ Before you begin, ensure you have:
 
    After choosing your database provider:
    - Create a `.env` file in the root directory
-   - Add your database URL:
+   - Add your database URL and auth configuration:
      ```env
      DATABASE_URL="postgresql://user:password@host:port/database?schema=public"
+     
+     # NextAuth.js Configuration
+     NEXTAUTH_URL=http://localhost:3000
+     NEXTAUTH_SECRET=your-secret-key # Generate one with: openssl rand -base64 32
+     
+     # GitHub OAuth
+     GITHUB_ID=your-github-client-id
+     GITHUB_SECRET=your-github-client-secret
      ```
 
 4. Initialize the database:
@@ -63,17 +91,36 @@ Before you begin, ensure you have:
    npm run dev
    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Authentication
 
-## Features
+This template uses NextAuth.js v4 for authentication. It supports:
 
-- Modern Next.js 14 with App Router
-- Database integration with Prisma ORM
-- Flexible PostgreSQL hosting options
-- User authentication system
-- Responsive UI with Tailwind CSS
-- Dark mode support
-- Type safety with TypeScript
+- OAuth Providers
+  - GitHub (pre-configured)
+  - Easy to add Google, Microsoft, etc.
+- Session Management
+- Account Linking
+- Protected API Routes
+- Protected Pages
+
+### Adding More OAuth Providers
+
+To add more providers:
+
+1. Get OAuth credentials from the provider
+2. Add credentials to `.env`
+3. Add provider to NextAuth configuration
+
+## Role-Based Access Control
+
+The template includes a full RBAC system with:
+
+- User Roles (e.g., admin, user)
+- Granular Permissions
+- Resource-Based Access
+- Permission Checking Utilities
+
+Default roles and permissions can be configured in the seed file.
 
 ## Project Structure
 
@@ -100,17 +147,12 @@ This template uses Prisma as an ORM, which supports various PostgreSQL hosting o
    - Azure Database for PostgreSQL
    - Self-hosted PostgreSQL
 
-Choose the option that best fits your needs based on:
-- Scaling requirements
-- Budget constraints
-- Geographic distribution
-- Maintenance preferences
-
 ## Learn More
 
 To learn more about the technologies used in this template:
 
 - [Next.js Documentation](https://nextjs.org/docs)
+- [NextAuth.js v4 Documentation](https://next-auth.js.org/v4/getting-started/introduction)
 - [Prisma Documentation](https://www.prisma.io/docs)
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
@@ -121,7 +163,8 @@ This template is ready to deploy on various platforms. Key considerations:
 
 1. Set up your environment variables:
    - Database connection string
-   - Any API keys or secrets
+   - NextAuth.js configuration
+   - OAuth provider credentials
 
 2. Database considerations:
    - Ensure your database is accessible from your hosting environment
