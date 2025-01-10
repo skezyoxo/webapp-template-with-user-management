@@ -259,48 +259,80 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Test Line
 This is a test line to verify the pre-commit hook.
 
-## Testing Infrastructure
+## Testing
 
-The template includes a comprehensive testing setup with:
-
-### Testing Framework
-- Jest for test running and assertions
-- React Testing Library for component testing
-- User-event for simulating user interactions
-- Jest DOM for DOM-specific assertions
-
-### Test Structure
-- Tests are located in `__tests__` directories next to the components they test
-- Test files use `.test.tsx` or `.spec.tsx` suffix
-- Configured for TypeScript support
-- Automatic test discovery and running
+This template includes a comprehensive testing setup with Jest and React Testing Library:
 
 ### Running Tests
+
 ```bash
 # Run all tests
 npm test
 
-# Run tests in watch mode
+# Run tests in watch mode (tests re-run when files change)
 npm run test:watch
 
 # Run tests with coverage report
 npm run test:coverage
 ```
 
-### Test Coverage
-- Automatic coverage reporting
-- Configurable coverage thresholds
-- Coverage reports for:
-  - Statements
-  - Branches
-  - Functions
-  - Lines
+### Testing Stack
+
+- **Jest**: Main testing framework
+  - Configured for Next.js and TypeScript
+  - Automatic module mocking
+  - Coverage reporting
+  - Watch mode for development
+
+- **React Testing Library**: Component testing
+  - User-centric testing approach
+  - DOM querying by accessibility roles
+  - Event simulation
+  - Async utilities
+
+### Test Structure
+
+Tests are organized following the component structure:
+```
+components/
+├── ComponentName/
+│   ├── index.tsx
+│   └── __tests__/
+│       └── component-name.test.tsx
+```
 
 ### Mocked Dependencies
-- Next.js Router
-- NextAuth.js session management
-- Theme provider
-- API responses
+
+The template includes pre-configured mocks for:
+- `next/router` - Navigation and routing
+- `next-auth/react` - Authentication
+- `next-themes` - Theme management
+- UI components when needed
+
+### Writing Tests
+
+Example test for a component:
+```typescript
+import { render, screen } from '@testing-library/react'
+import { ComponentName } from '../component-name'
+
+describe('ComponentName', () => {
+  it('renders successfully', () => {
+    render(<ComponentName />)
+    expect(screen.getByRole('button')).toBeInTheDocument()
+  })
+})
+```
+
+### Coverage Reports
+
+Test coverage is automatically generated for:
+- Statements
+- Branches
+- Functions
+- Lines
+
+Coverage reports can be found in the `coverage/` directory after running `npm run test:coverage`.
 
 ## Code Quality Tools
 
