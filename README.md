@@ -40,6 +40,13 @@ This template is designed to be your starting point. Here's what you'll need to 
   - User Behavior Tracking
   - Performance Metrics
   - Real-time Analytics
+- **Audit Logging**
+  - Security event tracking
+  - User action monitoring
+  - Dual storage (DB + File system)
+  - IP and User Agent logging
+  - Administrative action tracking
+  - Permission change logging
 
 ### Authentication & Authorization
 - **NextAuth.js v4 Integration**
@@ -253,6 +260,23 @@ API routes are protected with rate limiting:
 - Default: 100 requests per 15 minutes
 - Customizable per route
 - IP-based tracking
+
+### Security Configuration Checklist
+When deploying your application, consider these security enhancements:
+- [ ] Configure additional OAuth providers
+- [ ] Implement 2FA if required
+- [ ] Add CAPTCHA for sensitive forms
+- [ ] Set up IP allowlisting if needed
+- [ ] Configure session timeout settings
+- [ ] Add security-focused test cases
+- [ ] Set up security monitoring alerts
+- [ ] Configure audit log retention
+- [ ] Add logging for sensitive operations:
+  - User profile updates
+  - Data exports
+  - Configuration changes
+  - Access to sensitive data
+  - Failed authentication attempts
 
 ## 📜 Authentication Flow
 

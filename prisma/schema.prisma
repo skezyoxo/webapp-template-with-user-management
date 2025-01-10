@@ -27,6 +27,7 @@ model User {
   accounts          Account[]
   sessions          Session[]
   role              Role      @relation(fields: [roleId], references: [id])
+  auditLogs         AuditLog[]
 
   @@index([email])
   @@index([provider, providerId])
@@ -102,4 +103,20 @@ model Account {
   @@unique([provider, providerAccountId])
   @@index([userId])
   @@map("accounts")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  timestamp DateTime @default(now())
+  userId    String   @db.Uuid
+  action    String
+  resource  String
+  details   Json
+  ipAddress String?
+  userAgent String?
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([timestamp])
+  @@index([userId])
+  @@index([action])
 }
