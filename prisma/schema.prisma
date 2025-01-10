@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,33 +8,25 @@ datasource db {
 }
 
 model User {
-  id               String    @id @default(uuid()) @db.Uuid
-  email            String    @unique
-  passwordHash     String?   // Nullable for OAuth-only users
-  displayName      String?
-  username         String?   @unique  // Optional, but useful for @mentions and URLs
-  imageUrl         String?
-  timeZone        String?
-  active           Boolean   @default(true)
-  emailVerified    DateTime?
-  
-  // OAuth fields
-  provider          String?   // "github", "google", "microsoft"
+  id                String    @id @default(uuid()) @db.Uuid
+  email             String    @unique
+  passwordHash      String?
+  displayName       String?
+  username          String?   @unique
+  imageUrl          String?
+  timeZone          String?
+  active            Boolean   @default(true)
+  emailVerified     DateTime?
+  provider          String?
   providerId        String?
-  providerAccountId String?   @unique // For OAuth account linking
-  
-  // Role-based access control
-  role    Role     @relation(fields: [roleId], references: [id])
-  roleId  String   @db.Uuid
-
-  // Relationships
-  sessions    Session[]
-  accounts    Account[]
-
-  // Timestamps
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  lastLoginAt  DateTime?
+  providerAccountId String?   @unique
+  roleId            String    @db.Uuid
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  lastLoginAt       DateTime?
+  accounts          Account[]
+  sessions          Session[]
+  role              Role      @relation(fields: [roleId], references: [id])
 
   @@index([email])
   @@index([provider, providerId])
@@ -48,85 +34,70 @@ model User {
 }
 
 model Role {
-  id          String   @id @default(uuid()) @db.Uuid
-  name        String   @unique
+  id          String           @id @default(uuid()) @db.Uuid
+  name        String           @unique
   description String?
-  isDefault   Boolean  @default(false)
-  
-  // Relationships
-  users       User[]
+  isDefault   Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
   permissions RolePermission[]
-
-  // Timestamps
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  users       User[]
 
   @@map("roles")
 }
 
 model Permission {
-  id          String   @id @default(uuid()) @db.Uuid
-  name        String   @unique
+  id          String           @id @default(uuid()) @db.Uuid
+  name        String           @unique
   description String?
-  resource    String   // e.g., "projects", "logs"
-  action      String   // e.g., "create", "read", "update", "delete"
-  
-  // Relationships
+  resource    String
+  action      String
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
   roles       RolePermission[]
-
-  // Timestamps
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 
   @@index([resource, action])
   @@map("permissions")
 }
 
 model RolePermission {
-  id            String     @id @default(uuid()) @db.Uuid
-  role          Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  roleId        String     @db.Uuid
-  permission    Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-  permissionId  String     @db.Uuid
-
-  // Timestamps
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  id           String     @id @default(uuid()) @db.Uuid
+  roleId       String     @db.Uuid
+  permissionId String     @db.Uuid
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
   @@unique([roleId, permissionId])
   @@map("role_permissions")
 }
 
-// For OAuth session management
 model Session {
-  id            String   @id @default(uuid()) @db.Uuid
-  sessionToken  String   @unique
-  userId        String   @db.Uuid
-  expires       DateTime
-  
-  // Add relation to User
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(uuid()) @db.Uuid
+  sessionToken String   @unique
+  userId       String   @db.Uuid
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("sessions")
 }
 
-// For OAuth account linking
 model Account {
   id                String  @id @default(uuid()) @db.Uuid
   userId            String  @db.Uuid
-  type              String  // "oauth", "credentials", etc.
-  provider          String  // "github", "google", etc.
-  providerAccountId String  // ID from the provider
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
