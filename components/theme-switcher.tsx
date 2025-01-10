@@ -23,24 +23,26 @@ const themes = [
 ] as const;
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Render placeholder while waiting for client-side hydration
   if (!mounted) {
     return (
-      <Button variant="outline" size="icon">
-        <div className="h-[1.2rem] w-[1.2rem] animate-pulse rounded-sm bg-muted" />
+      <Button variant="outline" size="icon" className="opacity-0">
+        <Sun className="h-[1.2rem] w-[1.2rem]" />
         <span className="sr-only">Loading theme switcher</span>
       </Button>
     );
   }
 
   const getCurrentIcon = () => {
-    switch (theme) {
+    const currentTheme = theme || resolvedTheme;
+    switch (currentTheme) {
       case 'light':
         return <Sun className="h-[1.2rem] w-[1.2rem]" />;
       case 'dark':
