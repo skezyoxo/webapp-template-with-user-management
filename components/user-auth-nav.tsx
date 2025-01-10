@@ -1,7 +1,8 @@
 'use client';
 
-import { useSession, signOut, signIn } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,10 +21,12 @@ export function UserAuthNav() {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
           {session?.user?.image ? (
-            <img
+            <Image
               src={session.user.image}
               alt={session.user.name || 'User'}
               className="h-[1.2rem] w-[1.2rem] rounded-full"
+              width={20}
+              height={20}
             />
           ) : (
             <User className="h-[1.2rem] w-[1.2rem]" />
@@ -52,15 +55,14 @@ export function UserAuthNav() {
             </DropdownMenuItem>
           </>
         ) : (
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onSelect={event => {
-              event.preventDefault();
-              signIn('github');
-            }}
-          >
-            Sign in
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuItem asChild>
+              <Link href="/signin">Sign in</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/register">Create account</Link>
+            </DropdownMenuItem>
+          </>
         )}
       </DropdownMenuContent>
     </DropdownMenu>
