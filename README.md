@@ -165,6 +165,7 @@ RATE_LIMIT_WINDOW_MS="900000" # 15 minutes
    ```bash
    npm install
    ```
+   > **Note for Windows users**: During installation, you may see warnings about `chmod` not being recognized. These warnings are expected and can be safely ignored - the installation will complete successfully.
 
 3. Set up your environment:
    ```bash
@@ -185,7 +186,7 @@ RATE_LIMIT_WINDOW_MS="900000" # 15 minutes
    npx prisma db push
    
    # Seed with initial data (optional)
-   npx prisma db seed
+   npm run db:seed
    ```
 
 5. Start development:
@@ -226,7 +227,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see your application.
 5. Run database migrations:
    ```bash
    npx prisma db push
-   npx prisma db seed
+   npm run db:seed
    ```
 
 ### Manual Deployment
