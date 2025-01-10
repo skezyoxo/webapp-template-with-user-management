@@ -1,0 +1,8 @@
+.next
+build
+node_modules
+public
+.husky
+.git
+*.md
+package-lock.json 
