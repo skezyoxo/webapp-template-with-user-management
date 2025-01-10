@@ -28,16 +28,13 @@ This template is designed to be your starting point. Here's what you'll need to 
   - IP-based Limiting
 
 ### Monitoring & Logging
-- **Error Tracking**
-  - Sentry Integration
-  - Real-time Error Monitoring
-  - Performance Monitoring
-  - User Session Replay
-- **Logging System**
+- **Privacy-Focused Logging System**
   - Winston Logger Integration
   - Multiple Log Levels
   - File-based Logging
   - Development Console Logs
+  - Error Tracking
+  - Structured Log Format
 - **Performance Analytics**
   - Vercel Analytics Integration
   - User Behavior Tracking
@@ -126,7 +123,6 @@ Create a `.env` file based on `.env.example`. You'll need to:
 1. Set up a PostgreSQL database and add your connection string
 2. Create a GitHub OAuth app at https://github.com/settings/developers
 3. Generate a secure NEXTAUTH_SECRET (instructions below)
-4. Set up Sentry (optional, for error tracking)
 
 ```env
 # Database - Replace with your database connection string
@@ -139,9 +135,6 @@ NEXTAUTH_SECRET="your-generated-secret"
 # GitHub OAuth - Get these from your GitHub OAuth app
 GITHUB_ID="your-github-client-id"
 GITHUB_SECRET="your-github-client-secret"
-
-# Sentry - Optional, for error tracking
-NEXT_PUBLIC_SENTRY_DSN="your-sentry-dsn"
 
 # Logging
 LOG_LEVEL="info" # debug, info, warn, error
@@ -230,14 +223,18 @@ Access the API documentation at `/docs` when running the application. This provi
 - Schema Documentation
 
 ### Logging
-Logs are stored in the `logs` directory:
+Privacy-focused logging system stored in the `logs` directory:
 - `error.log`: Error-level logs
 - `combined.log`: All log levels
 - Console logs in development
+- Structured JSON format for easy parsing
+- Configurable log levels
+- Automatic log rotation
 
 ### Monitoring
-- Sentry Dashboard: Error tracking and performance monitoring
-- Vercel Analytics: User behavior and performance metrics
+- Vercel Analytics: Basic performance monitoring
+- Winston Logging: Error tracking and system monitoring
+- Custom error boundaries for React components
 
 ## 🔒 Security
 
