@@ -192,19 +192,58 @@ The application includes several utility function modules for common operations:
 
 ### Error Handling (`src/utils/errors.ts`)
 - Custom error classes for different scenarios
-- Standardized error responses
+  - `AppError`: Base error class
+  - `ValidationError`: For input validation errors (400)
+  - `UnauthorizedError`: For authentication errors (401)
+  - `ForbiddenError`: For permission errors (403)
+  - `NotFoundError`: For resource not found errors (404)
+- Standardized error responses with error codes
 - Type-safe error handling
+
+### API Middleware (`src/utils/api-middleware.ts`)
+- Centralized error handling for all API routes
+- Automatic error type detection and appropriate status codes
+- Consistent error response format:
+  ```typescript
+  {
+    error: string;    // Human-readable error message
+    code: string;     // Machine-readable error code
+  }
+  ```
+- Built-in handling for common error scenarios
+- Proper error logging for debugging
+
+### Example API Route Usage
+```typescript
+import { ValidationError } from '@/utils/errors';
+import { withErrorHandler } from '@/utils/api-middleware';
+
+async function handler(req: Request) {
+  // Your route logic here
+  if (someError) {
+    throw new ValidationError('Your error message');
+  }
+  return NextResponse.json({ data: result });
+}
+
+export const POST = withErrorHandler(handler);
+```
 
 ## Project Structure
 
 ```
-├── app/                 # Next.js app directory
-├── components/         # Reusable UI components
-├── lib/                # Utility functions and shared logic
-├── prisma/            # Database schema and migrations
+├── app/                # Next.js app directory
+│   └── api/           # API routes with error handling
+├── components/        # Reusable UI components
+├── lib/               # Utility functions and shared logic
+├── prisma/           # Database schema and migrations
 ├── src/
-│   └── types/         # TypeScript type definitions
-└── public/            # Static assets
+│   ├── types/        # TypeScript type definitions
+│   └── utils/
+│       ├── errors.ts      # Error classes
+│       ├── api-middleware.ts  # API error handling
+│       └── permissions.ts # Permission utilities
+└── public/           # Static assets
 ```
 
 ## Database Configuration
