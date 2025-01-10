@@ -13,7 +13,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
         defaultTheme="system"
         enableSystem
         disableTransitionOnChange
+        storageKey="app-theme"
         themes={['light', 'dark', 'rose', 'blue', 'green', 'purple', 'orange']}
+        enableColorScheme
       >
         <AuthProvider>
           <ErrorBoundary>{children}</ErrorBoundary>

@@ -30,7 +30,14 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return (
+      <Button variant="outline" size="icon">
+        <div className="h-[1.2rem] w-[1.2rem] animate-pulse rounded-sm bg-muted" />
+        <span className="sr-only">Loading theme switcher</span>
+      </Button>
+    );
+  }
 
   const getCurrentIcon = () => {
     switch (theme) {
