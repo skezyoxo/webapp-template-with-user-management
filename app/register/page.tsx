@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Loading } from '@/components/loading';
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
@@ -101,6 +102,7 @@ export default function RegisterPage() {
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? <Loading size="sm" className="mr-2" /> : null}
                 {isLoading ? 'Creating account...' : 'Create account'}
               </Button>
             </form>
@@ -116,10 +118,18 @@ export default function RegisterPage() {
 
             <Button
               variant="outline"
-              onClick={() => signIn('github', { callbackUrl: '/' })}
+              onClick={() => {
+                setIsLoading(true);
+                signIn('github', { callbackUrl: '/' });
+              }}
               className="w-full"
+              disabled={isLoading}
             >
-              <Github className="mr-2 h-4 w-4" />
+              {isLoading ? (
+                <Loading size="sm" className="mr-2" />
+              ) : (
+                <Github className="mr-2 h-4 w-4" />
+              )}
               GitHub
             </Button>
 
