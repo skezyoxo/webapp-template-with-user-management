@@ -8,7 +8,13 @@ import { AuthProvider } from '@/contexts/auth.context';
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <ThemeProvider
+        attribute="data-theme"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+        themes={['light', 'dark', 'rose', 'blue', 'green', 'purple', 'orange']}
+      >
         <AuthProvider>
           <ErrorBoundary>{children}</ErrorBoundary>
         </AuthProvider>
