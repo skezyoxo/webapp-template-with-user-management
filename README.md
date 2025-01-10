@@ -25,7 +25,11 @@ This is a modern web application template built with Next.js, featuring user man
 - Flexible PostgreSQL hosting options
 - Responsive UI with Tailwind CSS
 - Dark mode support
-- Type safety with TypeScript
+- Comprehensive TypeScript support
+  - Full type safety
+  - Generated Prisma types
+  - Auth session types
+  - Role-based operation types
 
 ## Getting Started
 
@@ -65,9 +69,9 @@ Before you begin, ensure you have:
    - Install PostgreSQL on your server
    - Configure access credentials
 
-   After choosing your database provider:
-   - Create a `.env` file in the root directory
-   - Add your database URL and auth configuration:
+4. Environment Setup:
+   - Copy `.env.example` to `.env`
+   - Update the following variables:
      ```env
      DATABASE_URL="postgresql://user:password@host:port/database?schema=public"
      
@@ -80,16 +84,55 @@ Before you begin, ensure you have:
      GITHUB_SECRET=your-github-client-secret
      ```
 
-4. Initialize the database:
+5. Initialize the database:
    ```bash
-   npx prisma generate
-   npx prisma db push
+   npx prisma generate   # Generate Prisma Client
+   npx prisma db push    # Push schema to database
+   npx prisma db seed    # Seed initial data
    ```
 
-5. Run the development server:
+6. Run the development server:
    ```bash
    npm run dev
    ```
+
+## Default Users and Roles
+
+The seed script creates the following default users:
+
+### Admin User
+- Email: admin@example.com
+- Password: admin123
+- Role: ADMIN
+- Permissions: All permissions
+
+### Regular User
+- Email: user@example.com
+- Password: user123
+- Role: USER
+- Permissions: user:read
+
+## Type System
+
+The application includes a comprehensive type system:
+
+### Auth Types
+- `User`, `Role`, `Permission`, `Session` (Prisma-generated)
+- `SafeUser` (User without sensitive information)
+- `AuthSession` (Session with user information)
+- `UserWithRole` (User with role and permissions)
+
+### Permission Types
+- `Resource` ('users' | 'roles' | 'permissions')
+- `Action` ('create' | 'read' | 'update' | 'delete')
+- `PermissionCheck` (Resource + Action combination)
+
+### Utility Types
+- `AsyncOperationResult<T>`
+- `PaginationParams`
+- `PaginatedResponse<T>`
+- `FormSubmissionState`
+- `ApiResponse<T>`
 
 ## Authentication
 
@@ -115,21 +158,26 @@ To add more providers:
 
 The template includes a full RBAC system with:
 
-- User Roles (e.g., admin, user)
-- Granular Permissions
-- Resource-Based Access
-- Permission Checking Utilities
+### Default Roles
+- ADMIN: Full system access
+- USER: Basic user access
 
-Default roles and permissions can be configured in the seed file.
+### Default Permissions
+- user:read - Read user information
+- user:write - Create and update users
+- user:delete - Delete users
+- role:manage - Manage roles and permissions
 
 ## Project Structure
 
 ```
-├── app/                  # Next.js app directory
-├── components/          # Reusable UI components
-├── lib/                 # Utility functions and shared logic
-├── prisma/             # Database schema and migrations
-└── public/             # Static assets
+├── app/                 # Next.js app directory
+├── components/         # Reusable UI components
+├── lib/                # Utility functions and shared logic
+├── prisma/            # Database schema and migrations
+├── src/
+│   └── types/         # TypeScript type definitions
+└── public/            # Static assets
 ```
 
 ## Database Configuration
@@ -137,7 +185,7 @@ Default roles and permissions can be configured in the seed file.
 This template uses Prisma as an ORM, which supports various PostgreSQL hosting options:
 
 1. **Serverless Options:**
-   - Neon (example in setup instructions)
+   - Neon (recommended for development)
    - AWS Aurora Serverless
    - CockroachDB
 
