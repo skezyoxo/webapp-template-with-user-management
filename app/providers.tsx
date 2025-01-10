@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { SessionProvider } from 'next-auth/react';
 import { AuthProvider } from '@/contexts/auth.context';
@@ -13,11 +13,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
           defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange
-          themes={["light", "dark", "rose", "blue", "green", "purple", "orange"]}
+          themes={['light', 'dark', 'rose', 'blue', 'green', 'purple', 'orange']}
         >
           {children}
         </ThemeProvider>
       </AuthProvider>
     </SessionProvider>
   );
-} 
+}

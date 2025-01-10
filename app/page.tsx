@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card"
+import { Card } from '@/components/ui/card';
 
 export default function Home() {
   return (
@@ -10,5 +10,5 @@ export default function Home() {
         </p>
       </Card>
     </div>
-  )
-} 
+  );
+}

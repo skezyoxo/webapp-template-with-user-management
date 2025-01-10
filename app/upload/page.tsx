@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card"
+import { Card } from '@/components/ui/card';
 
 export default function UploadPage() {
   return (
@@ -10,5 +10,5 @@ export default function UploadPage() {
         </p>
       </Card>
     </div>
-  )
-} 
+  );
+}

@@ -26,7 +26,7 @@
     --radius: 0.5rem;
   }
 
-  [data-theme="dark"] {
+  [data-theme='dark'] {
     --background: 224 10% 15%;
     --foreground: 210 20% 98%;
     --card: 224 10% 15%;
@@ -48,7 +48,7 @@
     --ring: 267 75% 65%;
   }
 
-  [data-theme="rose"] {
+  [data-theme='rose'] {
     --background: 346.8 100% 98.5%;
     --foreground: 240 10% 3.9%;
     --primary: 346.8 77.2% 49.8%;
@@ -56,7 +56,7 @@
     /* ... rest of rose theme ... */
   }
 
-  [data-theme="blue"] {
+  [data-theme='blue'] {
     --background: 221.2 100% 98.5%;
     --foreground: 222.2 47.4% 11.2%;
     --card: 221.2 100% 98.5%;
@@ -78,7 +78,7 @@
     --ring: 221.2 83.2% 53.3%;
   }
 
-  [data-theme="green"] {
+  [data-theme='green'] {
     --background: 142.1 76.2% 98.5%;
     --foreground: 240 10% 3.9%;
     --card: 142.1 76.2% 98.5%;
@@ -100,7 +100,7 @@
     --ring: 142.1 76.2% 36.3%;
   }
 
-  [data-theme="purple"] {
+  [data-theme='purple'] {
     --background: 262.1 100% 98.5%;
     --foreground: 224 71.4% 4.1%;
     --card: 262.1 100% 98.5%;
@@ -122,7 +122,7 @@
     --ring: 262.1 83.3% 57.8%;
   }
 
-  [data-theme="orange"] {
+  [data-theme='orange'] {
     --background: 24.6 95% 98.5%;
     --foreground: 20 14.3% 4.1%;
     --card: 24.6 95% 98.5%;
@@ -152,4 +152,4 @@
   body {
     @apply bg-background text-foreground;
   }
-} 
+}
