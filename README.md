@@ -1,54 +1,108 @@
 # Next.js Web Application Template with User Management
 
-This is a modern web application template built with Next.js, featuring user management and database integration. It includes:
+A modern, production-ready web application template built with Next.js 14, featuring comprehensive user management, authentication, and a beautiful UI. This template provides everything you need to kickstart your web application with best practices and essential features.
 
-- [Next.js](https://nextjs.org/) 14 with App Router
-- [NextAuth.js](https://next-auth.js.org/) v4 for Authentication
-- [Prisma](https://www.prisma.io/) for database ORM
-- PostgreSQL support (with flexible hosting options)
-- Role-Based Access Control (RBAC)
-- Modern UI with Tailwind CSS
-- Comprehensive testing with Jest and React Testing Library
-- Code quality tools (ESLint, Prettier, Husky)
+## 🚀 Demo
 
-## Features
+[Live Demo](your-demo-url) - Coming soon
 
-- Modern Next.js 14 with App Router
-- Authentication with NextAuth.js v4
-  - GitHub OAuth integration
-  - Support for multiple providers
-  - Session management
-  - Account linking
-- Role-Based Access Control (RBAC)
-  - Flexible role management
-  - Granular permissions
-  - Resource-based access control
-- Database integration with Prisma ORM
-- Flexible PostgreSQL hosting options
-- Responsive UI with Tailwind CSS
-- Advanced Theme System
-  - Light and Dark modes
-  - Multiple color schemes (Rose, Blue, Green, Purple, Orange)
-  - Persistent theme selection
-  - Accessible theme switcher
+![Screenshot of the application](screenshot-url-placeholder)
+
+## ✨ Core Features
+
+### Authentication & Authorization
+- **NextAuth.js v4 Integration**
+  - Email/Password authentication
+  - GitHub OAuth support
+  - Secure session management
+  - Protected routes and API endpoints
+  - Role-based access control (RBAC)
+  - Profile management
+  - Automatic session handling
+
+### Database & Models
+- **Prisma Schema**
+  - User model with role relationships
+  - Role and Permission models
+  - Extensible database schema
+  - Type-safe database operations
+- **Seed Data**
+  - Pre-configured roles (admin, user)
+  - Default permissions
+  - Test users for development
+  - Role-permission relationships
+
+### Modern UI/UX
+- **Shadcn/UI Components**
+  - Beautiful, accessible components
+  - Consistent design language
+  - Mobile-responsive layouts
+  - Navigation bar with auth integration
+- **Theme System**
+  - Light/Dark mode support
+  - Theme persistence
   - System theme detection
-- Comprehensive TypeScript support
+  - Smooth theme transitions
+- **Loading States**
+  - Consistent loading indicators
+  - Button loading states
+  - Form submission feedback
+  - Skeleton loaders
+
+### Development Features
+- **TypeScript Support**
   - Full type safety
   - Generated Prisma types
+  - Type-safe API routes
   - Auth session types
   - Role-based operation types
+  - Comprehensive type definitions
+- **Database Integration**
+  - Prisma ORM
+  - PostgreSQL support
+  - Type-safe database queries
+  - Automatic migrations
+  - Seeding utilities
+- **Testing Setup**
+  - Jest configuration
+  - React Testing Library
+  - Component testing utilities
+  - API route testing support
+- **Code Quality**
+  - ESLint configuration
+  - Prettier formatting
+  - Husky pre-commit hooks
+  - Import sorting
+- **Error Handling**
+  - Global error boundary
+  - API error middleware
+  - Type-safe error responses
+  - Consistent error UI
 
-## Getting Started
+## 📋 Requirements
 
 ### Prerequisites
+- Node.js 18.x or later
+- PostgreSQL database
+- Git
 
-Before you begin, ensure you have:
-- Node.js installed (v18 or later)
-- Access to a PostgreSQL database (self-hosted or cloud provider)
-- Git for version control
-- GitHub OAuth credentials (if using GitHub authentication)
+### Environment Variables
+The following environment variables are required:
 
-### Setup Instructions
+```env
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/mydb"
+
+# NextAuth
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key"
+
+# GitHub OAuth
+GITHUB_ID="your-github-client-id"
+GITHUB_SECRET="your-github-client-secret"
+```
+
+## 🛠️ Installation
 
 1. Clone the repository:
    ```bash
@@ -61,406 +115,139 @@ Before you begin, ensure you have:
    npm install
    ```
 
-3. Database Setup:
-   You'll need a PostgreSQL database. Here are some options:
-
-   #### Option 1: Using Neon (Serverless PostgreSQL)
-   - Create a project at [Neon](https://neon.tech)
-   - Copy your connection string
-   
-   #### Option 2: AWS RDS
-   - Set up a PostgreSQL instance on RDS
-   - Use the provided endpoint and credentials
-   
-   #### Option 3: Self-hosted PostgreSQL
-   - Install PostgreSQL on your server
-   - Configure access credentials
-
-4. Environment Setup:
-   - Copy `.env.example` to `.env`
-   - Update the following variables:
-     ```env
-     DATABASE_URL="postgresql://user:password@host:port/database?schema=public"
-     
-     # NextAuth.js Configuration
-     NEXTAUTH_URL=http://localhost:3000
-     NEXTAUTH_SECRET=your-secret-key # Generate one with: openssl rand -base64 32
-     
-     # GitHub OAuth
-     GITHUB_ID=your-github-client-id
-     GITHUB_SECRET=your-github-client-secret
-     ```
-
-5. Initialize the database:
+3. Set up your environment variables:
    ```bash
-   npx prisma generate   # Generate Prisma Client
-   npx prisma db push    # Push schema to database
-   npx prisma db seed    # Seed initial data
+   cp .env.example .env
+   ```
+   Then update the `.env` file with your values.
+
+4. Initialize and seed the database:
+   ```bash
+   # Generate Prisma Client
+   npx prisma generate
+   
+   # Push database schema
+   npx prisma db push
+   
+   # Seed the database with initial data
+   npx prisma db seed
    ```
 
-6. Run the development server:
+5. Start the development server:
    ```bash
    npm run dev
    ```
 
-## Default Users and Roles
+Your app should now be running on [http://localhost:3000](http://localhost:3000)
 
-The seed script creates the following default users:
-
-### Admin User
-- Email: admin@example.com
-- Password: admin123
-- Role: ADMIN
-- Permissions: All permissions
-
-### Regular User
-- Email: user@example.com
-- Password: user123
-- Role: USER
-- Permissions: user:read
-
-## Type System
-
-The application includes a comprehensive type system:
-
-### Auth Types
-- `User`, `Role`, `Permission`, `Session` (Prisma-generated)
-- `SafeUser` (User without sensitive information)
-- `AuthSession` (Session with user information)
-- `UserWithRole` (User with role and permissions)
-
-### Permission Types
-- `Resource` ('users' | 'roles' | 'permissions')
-- `Action` ('create' | 'read' | 'update' | 'delete')
-- `PermissionCheck` (Resource + Action combination)
-
-### Utility Types
-- `AsyncOperationResult<T>`
-- `PaginationParams`
-- `PaginatedResponse<T>`
-- `FormSubmissionState`
-- `ApiResponse<T>`
-
-## Authentication
-
-This template uses NextAuth.js v4 for authentication. It supports:
-
-- OAuth Providers
-  - GitHub (pre-configured)
-  - Easy to add Google, Microsoft, etc.
-- Session Management
-- Account Linking
-- Protected API Routes
-- Protected Pages
-
-### Adding More OAuth Providers
-
-To add more providers:
-
-1. Get OAuth credentials from the provider
-2. Add credentials to `.env`
-3. Add provider to NextAuth configuration
-
-## Role-Based Access Control
-
-The template includes a full RBAC system with:
-
-### Default Roles
-- ADMIN: Full system access
-- USER: Basic user access
-
-### Default Permissions
-- user:read - Read user information
-- user:write - Create and update users
-- user:delete - Delete users
-- role:manage - Manage roles and permissions
-
-## Utility Functions
-
-The application includes several utility function modules for common operations:
-
-### Permission Utilities (`src/utils/permissions.ts`)
-- Permission checking and validation
-- Resource access control
-- Role-based permission verification
-
-### Role Management (`src/utils/roles.ts`)
-- Role creation and assignment
-- Default role management
-- Role validation and verification
-
-### Session Handling (`src/utils/session.ts`)
-- Session creation and validation
-- Token-based authentication
-- Session cleanup and management
-- Automatic session expiry (24 hours)
-
-### Error Handling (`src/utils/errors.ts`)
-- Custom error classes for different scenarios
-  - `AppError`: Base error class
-  - `ValidationError`: For input validation errors (400)
-  - `UnauthorizedError`: For authentication errors (401)
-  - `ForbiddenError`: For permission errors (403)
-  - `NotFoundError`: For resource not found errors (404)
-- Standardized error responses with error codes
-- Type-safe error handling
-
-### Client Error Boundary (`components/error-boundary.tsx`)
-- React error boundary for catching client-side rendering errors
-- Graceful error UI with error message display
-- Automatic error logging
-- Recovery options:
-  - Return to home page
-  - Automatic state reset on navigation
-- TypeScript support with proper error typing
-- Styled with Tailwind CSS for consistent UI
-
-### API Middleware (`src/utils/api-middleware.ts`)
-- Centralized error handling for all API routes
-- Automatic error type detection and appropriate status codes
-- Consistent error response format:
-  ```typescript
-  {
-    error: string;    // Human-readable error message
-    code: string;     // Machine-readable error code
-  }
-  ```
-- Built-in handling for common error scenarios
-- Proper error logging for debugging
-
-### Example API Route Usage
-```typescript
-import { ValidationError } from '@/utils/errors';
-import { withErrorHandler } from '@/utils/api-middleware';
-
-async function handler(req: Request) {
-  // Your route logic here
-  if (someError) {
-    throw new ValidationError('Your error message');
-  }
-  return NextResponse.json({ data: result });
-}
-
-export const POST = withErrorHandler(handler);
-```
-
-## Project Structure
+## 📁 Project Structure
 
 ```
-├── app/                # Next.js app directory
-│   └── api/           # API routes with error handling
-├── components/        # Reusable UI components
-│   ├── ui/           # UI components
-│   └── error-boundary.tsx  # Global error boundary
-├── lib/               # Utility functions and shared logic
-├── prisma/           # Database schema and migrations
+├── app/                 # Next.js app directory
+│   ├── api/            # API routes
+│   │   └── auth/       # Authentication endpoints
+│   ├── admin/          # Admin dashboard
+│   ├── signin/         # Authentication pages
+│   ├── register/       # User registration
+│   └── profile/        # User profile management
+├── components/         # React components
+│   ├── ui/            # UI components
+│   └── __tests__/     # Component tests
 ├── src/
-│   ├── types/        # TypeScript type definitions
-│   └── utils/
-│       ├── errors.ts      # Error classes
-│       ├── api-middleware.ts  # API error handling
-│       └── permissions.ts # Permission utilities
-└── public/           # Static assets
+│   ├── contexts/      # React contexts
+│   ├── hooks/         # Custom hooks
+│   ├── types/         # TypeScript types
+│   └── utils/         # Utility functions
+│       ├── auth/      # Auth utilities
+│       ├── permissions/# Permission helpers
+│       └── errors/    # Error handling
+├── prisma/            # Database schema
+│   ├── schema.prisma  # Database models
+│   └── seed.ts        # Seed data
+└── public/            # Static assets
 ```
 
-## Database Configuration
+## 💾 Database Models
 
-This template uses Prisma as an ORM, which supports various PostgreSQL hosting options:
+The template includes the following core models:
 
-1. **Serverless Options:**
-   - Neon (recommended for development)
-   - AWS Aurora Serverless
-   - CockroachDB
+1. **User**
+   - Basic user information
+   - Role relationships
+   - Authentication details
 
-2. **Traditional Hosting:**
-   - AWS RDS
-   - Google Cloud SQL
-   - Azure Database for PostgreSQL
-   - Self-hosted PostgreSQL
+2. **Role**
+   - Role definitions
+   - Permission assignments
+   - User associations
 
-## Learn More
+3. **Permission**
+   - Granular access controls
+   - Resource-based permissions
+   - Role assignments
 
-To learn more about the technologies used in this template:
+## 📜 Available Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [NextAuth.js v4 Documentation](https://next-auth.js.org/v4/getting-started/introduction)
-- [Prisma Documentation](https://www.prisma.io/docs)
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run test` - Run tests
+- `npm run lint` - Run ESLint
+- `npm run format` - Format with Prettier
+- `npm run db:seed` - Seed the database
+- `npm run db:reset` - Reset and reseed database
 
-## Deployment
+## 🔐 Authentication Flow
 
-This template is ready to deploy on various platforms. Key considerations:
+The template includes a complete authentication system:
 
-1. Set up your environment variables:
-   - Database connection string
-   - NextAuth.js configuration
-   - OAuth provider credentials
+1. **Email/Password Authentication**
+   - Secure password hashing
+   - Form validation
+   - Error handling
+   - Custom credentials provider
 
-2. Database considerations:
-   - Ensure your database is accessible from your hosting environment
-   - Configure connection pools appropriately
-   - Set up SSL if required by your provider
+2. **OAuth Authentication**
+   - GitHub integration
+   - Extensible for other providers
+   - Account linking support
+   - OAuth callback handling
 
-3. Run database migrations before deploying new versions
+3. **Session Management**
+   - Secure session tokens
+   - Automatic token refresh
+   - Session persistence
+   - Role-based session data
 
-## Contributing
+4. **Authorization**
+   - Role-based access control
+   - Permission checking
+   - Protected routes
+   - API route protection
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## 🤝 Contributing
 
-## License
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes:
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## Test Line
-This is a test line to verify the pre-commit hook.
+## 📝 License
 
-## Testing
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-This template includes a comprehensive testing setup with Jest and React Testing Library:
+## ⭐️ Support
 
-### Test Configuration
+If you found this template helpful, please consider giving it a star! ⭐️
 
-#### Jest Setup (`jest.setup.js`)
-- Testing Library DOM matchers
-- Window matchMedia mocks
-- Next.js router mocks
-- NextAuth session mocks
-- Common browser API mocks
+## 🙏 Acknowledgments
 
-#### Jest Config (`jest.config.js`)
-- Next.js integration
-- JSDOM test environment
-- Automatic test discovery
-- Coverage reporting configuration
-- Custom module resolution
-- Ignore patterns for node_modules and build files
-
-### Coverage Configuration
-- Collects coverage from:
-  - Source files (`src/**/*.{js,jsx,ts,tsx}`)
-  - Components (`components/**/*.{js,jsx,ts,tsx}`)
-- Excludes:
-  - Type declaration files
-  - Node modules
-  - Build artifacts
-
-### Running Tests
-
-```bash
-# Run all tests
-npm test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage report
-npm run test:coverage
-```
-
-### Writing Tests
-
-Example component test:
-```typescript
-import { render, screen } from '@testing-library/react'
-import { ThemeToggle } from '../theme-switcher'
-
-describe('ThemeToggle', () => {
-  it('renders successfully', () => {
-    render(<ThemeToggle />)
-    expect(screen.getByRole('button')).toBeInTheDocument()
-  })
-})
-```
-
-### Mocked Dependencies
-The template includes pre-configured mocks for:
-- `next/router` - Navigation and routing
-- `next-auth/react` - Authentication
-- `next-themes` - Theme management
-- Browser APIs (matchMedia, etc.)
-- UI components when needed
-
-### Test Organization
-Tests are co-located with their components:
-```
-components/
-├── ComponentName/
-│   ├── index.tsx
-│   └── __tests__/
-│       └── component-name.test.tsx
-```
-
-### Coverage Reports
-
-Test coverage is automatically generated for:
-- Statements
-- Branches
-- Functions
-- Lines
-
-Coverage reports can be found in the `coverage/` directory after running `npm run test:coverage`.
-
-## Code Quality Tools
-
-### ESLint Configuration (`.eslintrc.json`)
-- Next.js and TypeScript configuration
-- React hooks rules
-- Import sorting
-- Accessibility rules
-- Performance best practices
-- Integration with Prettier
-
-### Prettier Configuration (`.prettierrc`)
-- Consistent code style
-- Tab width: 2 spaces
-- Single quotes
-- Trailing commas
-- Semi-colons enforced
-- Bracket spacing
-- Arrow function parentheses
-
-### Git Hooks with Husky
-- Pre-commit hooks:
-  - Lint staged files
-  - Run type checking
-  - Format code
-  - Run affected tests
-- Prevents commits with:
-  - Failed tests
-  - Type errors
-  - Linting errors
-  - Formatting issues
-
-### Lint Staged Configuration
-- Runs checks only on staged files
-- Optimizes pre-commit performance
-- File type specific checks:
-  - `.ts`/`.tsx`: ESLint, Prettier, TypeScript
-  - `.js`/`.jsx`: ESLint, Prettier
-  - `.json`: Prettier
-  - `.css`: Stylelint
-  - `.md`: Markdownlint
-
-### UI Components (`components/ui/`)
-- Modern, accessible UI components
-- Built with Tailwind CSS
-- Fully typed with TypeScript
-- Components include:
-  - Button
-  - Dropdown Menu
-  - Theme Switcher
-  - Form elements
-  - And more...
-
-### Theme System (`components/theme-switcher.tsx`)
-- Built on `next-themes`
-- Multiple theme options:
-  - Light Mode
-  - Dark Mode
-  - Colored Themes: Rose, Blue, Green, Purple, Orange
-- System theme detection
-- Persistent theme selection
-- Accessible theme toggle with keyboard support
-- Smooth theme transitions
-- Icon indicators for current theme
+Built with these amazing technologies:
+- [Next.js](https://nextjs.org/) - React framework
+- [NextAuth.js](https://next-auth.js.org/) - Authentication
+- [Prisma](https://www.prisma.io/) - Database ORM
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [Shadcn/UI](https://ui.shadcn.com/) - UI components
