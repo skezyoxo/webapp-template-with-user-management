@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate && chmod +x .husky/* || true",
-    "prepare": "husky install",
+    "prepare": "husky",
     "format": "prettier --write .",
     "lint-staged": "lint-staged",
     "test": "jest",
