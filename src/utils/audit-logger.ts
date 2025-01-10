@@ -1,13 +1,30 @@
 import { PrismaClient } from '@prisma/client';
 import winston from 'winston';
+import fs from 'fs';
+import path from 'path';
 
 const prisma = new PrismaClient();
+
+// Ensure logs directory exists
+const logsDir = path.join(process.cwd(), 'logs');
+if (!fs.existsSync(logsDir)) {
+  fs.mkdirSync(logsDir, { recursive: true });
+}
 
 // Create a Winston logger specifically for audit logs
 const auditLogger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-  transports: [new winston.transports.File({ filename: 'logs/audit.log' })],
+  transports: [
+    new winston.transports.File({
+      filename: path.join(logsDir, 'audit.log'),
+      maxsize: 5242880, // 5MB
+      maxFiles: 5,
+      tailable: true,
+    }),
+    // Also log to console in development
+    ...(process.env.NODE_ENV !== 'production' ? [new winston.transports.Console()] : []),
+  ],
 });
 
 export interface AuditLogEntry {
@@ -20,28 +37,44 @@ export interface AuditLogEntry {
 }
 
 export async function logAuditEvent(entry: AuditLogEntry) {
+  let dbError: Error | null = null;
+
   try {
     // Log to database
-    await prisma.$transaction([
-      prisma.auditLog.create({
-        data: {
-          userId: entry.userId,
-          action: entry.action,
-          resource: entry.resource,
-          details: entry.details,
-          ipAddress: entry.ipAddress,
-          userAgent: entry.userAgent,
-          timestamp: new Date(),
-        },
-      }),
-    ]);
-
-    // Also log to file system
-    auditLogger.info('Audit event', entry);
+    await prisma.auditLog.create({
+      data: {
+        userId: entry.userId,
+        action: entry.action,
+        resource: entry.resource,
+        details: entry.details,
+        ipAddress: entry.ipAddress,
+        userAgent: entry.userAgent,
+        timestamp: new Date(),
+      },
+    });
   } catch (error) {
-    console.error('Failed to log audit event:', error);
-    // Still try to log to file if database fails
-    auditLogger.error('Failed to log to database', { error, entry });
+    dbError = error as Error;
+    console.error('Failed to log audit event to database:', error);
+  }
+
+  try {
+    // Always try to log to file system
+    auditLogger.info('Audit event', {
+      ...entry,
+      timestamp: new Date().toISOString(),
+      dbError: dbError?.message,
+    });
+  } catch (error) {
+    console.error('Failed to write audit log to file:', error);
+    // At this point, both DB and file logging failed
+    if (dbError) {
+      throw new Error('Audit logging failed for both database and file system');
+    }
+  }
+
+  // If database logging failed but file logging succeeded, we still consider it a partial success
+  if (dbError) {
+    console.warn('Audit event only logged to file system');
   }
 }
 

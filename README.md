@@ -262,21 +262,42 @@ API routes are protected with rate limiting:
 - IP-based tracking
 
 ### Security Configuration Checklist
-When deploying your application, consider these security enhancements:
-- [ ] Configure additional OAuth providers
-- [ ] Implement 2FA if required
-- [ ] Add CAPTCHA for sensitive forms
-- [ ] Set up IP allowlisting if needed
-- [ ] Configure session timeout settings
-- [ ] Add security-focused test cases
+When deploying your application, use this checklist to enhance security beyond the template's base features:
+
+#### Authentication Enhancements
+- [ ] Configure additional OAuth providers beyond GitHub
+- [ ] Implement 2FA/MFA for sensitive operations
+- [ ] Add CAPTCHA for login and registration forms
+- [ ] Set up IP allowlisting for admin routes
+- [ ] Configure custom session timeout settings
+
+#### Monitoring Setup
 - [ ] Set up security monitoring alerts
-- [ ] Configure audit log retention
-- [ ] Add logging for sensitive operations:
-  - User profile updates
-  - Data exports
-  - Configuration changes
-  - Access to sensitive data
-  - Failed authentication attempts
+- [ ] Configure log retention policies
+- [ ] Set up automated security scanning
+- [ ] Configure uptime monitoring
+- [ ] Set up error tracking services
+
+#### Additional Logging
+- [ ] Configure audit log retention period
+- [ ] Add logging for these sensitive operations:
+  - [ ] User profile updates
+  - [ ] Data exports
+  - [ ] Configuration changes
+  - [ ] Access to sensitive data
+  - [ ] Failed authentication attempts
+
+#### Testing & Validation
+- [ ] Add security-focused test cases:
+  - [ ] Authentication flows
+  - [ ] Authorization checks
+  - [ ] Input validation
+  - [ ] Rate limiting
+  - [ ] File upload security
+- [ ] Perform security audit
+- [ ] Run penetration testing
+
+Note: This checklist represents additional security measures to implement based on your specific needs. The template already includes essential security features documented in the Core Features section above.
 
 ## 📜 Authentication Flow
 

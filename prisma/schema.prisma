@@ -119,4 +119,5 @@ model AuditLog {
   @@index([timestamp])
   @@index([userId])
   @@index([action])
+  @@map("audit_logs")
 }
