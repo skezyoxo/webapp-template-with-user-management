@@ -168,6 +168,31 @@ The template includes a full RBAC system with:
 - user:delete - Delete users
 - role:manage - Manage roles and permissions
 
+## Utility Functions
+
+The application includes several utility function modules for common operations:
+
+### Permission Utilities (`src/utils/permissions.ts`)
+- Permission checking and validation
+- Resource access control
+- Role-based permission verification
+
+### Role Management (`src/utils/roles.ts`)
+- Role creation and assignment
+- Default role management
+- Role validation and verification
+
+### Session Handling (`src/utils/session.ts`)
+- Session creation and validation
+- Token-based authentication
+- Session cleanup and management
+- Automatic session expiry (24 hours)
+
+### Error Handling (`src/utils/errors.ts`)
+- Custom error classes for different scenarios
+- Standardized error responses
+- Type-safe error handling
+
 ## Project Structure
 
 ```
