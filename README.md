@@ -26,7 +26,12 @@ This is a modern web application template built with Next.js, featuring user man
 - Database integration with Prisma ORM
 - Flexible PostgreSQL hosting options
 - Responsive UI with Tailwind CSS
-- Dark mode support
+- Advanced Theme System
+  - Light and Dark modes
+  - Multiple color schemes (Rose, Blue, Green, Purple, Orange)
+  - Persistent theme selection
+  - Accessible theme switcher
+  - System theme detection
 - Comprehensive TypeScript support
   - Full type safety
   - Generated Prisma types
@@ -200,6 +205,16 @@ The application includes several utility function modules for common operations:
 - Standardized error responses with error codes
 - Type-safe error handling
 
+### Client Error Boundary (`components/error-boundary.tsx`)
+- React error boundary for catching client-side rendering errors
+- Graceful error UI with error message display
+- Automatic error logging
+- Recovery options:
+  - Return to home page
+  - Automatic state reset on navigation
+- TypeScript support with proper error typing
+- Styled with Tailwind CSS for consistent UI
+
 ### API Middleware (`src/utils/api-middleware.ts`)
 - Centralized error handling for all API routes
 - Automatic error type detection and appropriate status codes
@@ -235,6 +250,8 @@ export const POST = withErrorHandler(handler);
 ├── app/                # Next.js app directory
 │   └── api/           # API routes with error handling
 ├── components/        # Reusable UI components
+│   ├── ui/           # UI components
+│   └── error-boundary.tsx  # Global error boundary
 ├── lib/               # Utility functions and shared logic
 ├── prisma/           # Database schema and migrations
 ├── src/
@@ -302,65 +319,76 @@ This is a test line to verify the pre-commit hook.
 
 This template includes a comprehensive testing setup with Jest and React Testing Library:
 
+### Test Configuration
+
+#### Jest Setup (`jest.setup.js`)
+- Testing Library DOM matchers
+- Window matchMedia mocks
+- Next.js router mocks
+- NextAuth session mocks
+- Common browser API mocks
+
+#### Jest Config (`jest.config.js`)
+- Next.js integration
+- JSDOM test environment
+- Automatic test discovery
+- Coverage reporting configuration
+- Custom module resolution
+- Ignore patterns for node_modules and build files
+
+### Coverage Configuration
+- Collects coverage from:
+  - Source files (`src/**/*.{js,jsx,ts,tsx}`)
+  - Components (`components/**/*.{js,jsx,ts,tsx}`)
+- Excludes:
+  - Type declaration files
+  - Node modules
+  - Build artifacts
+
 ### Running Tests
 
 ```bash
 # Run all tests
 npm test
 
-# Run tests in watch mode (tests re-run when files change)
+# Run tests in watch mode
 npm run test:watch
 
 # Run tests with coverage report
 npm run test:coverage
 ```
 
-### Testing Stack
+### Writing Tests
 
-- **Jest**: Main testing framework
-  - Configured for Next.js and TypeScript
-  - Automatic module mocking
-  - Coverage reporting
-  - Watch mode for development
+Example component test:
+```typescript
+import { render, screen } from '@testing-library/react'
+import { ThemeToggle } from '../theme-switcher'
 
-- **React Testing Library**: Component testing
-  - User-centric testing approach
-  - DOM querying by accessibility roles
-  - Event simulation
-  - Async utilities
+describe('ThemeToggle', () => {
+  it('renders successfully', () => {
+    render(<ThemeToggle />)
+    expect(screen.getByRole('button')).toBeInTheDocument()
+  })
+})
+```
 
-### Test Structure
+### Mocked Dependencies
+The template includes pre-configured mocks for:
+- `next/router` - Navigation and routing
+- `next-auth/react` - Authentication
+- `next-themes` - Theme management
+- Browser APIs (matchMedia, etc.)
+- UI components when needed
 
-Tests are organized following the component structure:
+### Test Organization
+Tests are co-located with their components:
 ```
 components/
 ├── ComponentName/
 │   ├── index.tsx
 │   └── __tests__/
 │       └── component-name.test.tsx
-```
-
-### Mocked Dependencies
-
-The template includes pre-configured mocks for:
-- `next/router` - Navigation and routing
-- `next-auth/react` - Authentication
-- `next-themes` - Theme management
-- UI components when needed
-
-### Writing Tests
-
-Example test for a component:
-```typescript
-import { render, screen } from '@testing-library/react'
-import { ComponentName } from '../component-name'
-
-describe('ComponentName', () => {
-  it('renders successfully', () => {
-    render(<ComponentName />)
-    expect(screen.getByRole('button')).toBeInTheDocument()
-  })
-})
 ```
 
 ### Coverage Reports
@@ -375,32 +403,64 @@ Coverage reports can be found in the `coverage/` directory after running `npm ru
 
 ## Code Quality Tools
 
-### ESLint
-- Configured for Next.js and TypeScript
+### ESLint Configuration (`.eslintrc.json`)
+- Next.js and TypeScript configuration
+- React hooks rules
+- Import sorting
+- Accessibility rules
+- Performance best practices
 - Integration with Prettier
-- Custom rules for React best practices
-- Automatic fixing capabilities
 
-### Prettier
-- Consistent code formatting
-- Configured for TypeScript and React
-- Integrated with ESLint
-- Pre-commit formatting
+### Prettier Configuration (`.prettierrc`)
+- Consistent code style
+- Tab width: 2 spaces
+- Single quotes
+- Trailing commas
+- Semi-colons enforced
+- Bracket spacing
+- Arrow function parentheses
 
-### Husky
-- Git hooks management
-- Pre-commit checks:
-  - Code formatting
-  - Linting
-  - Type checking
-  - Test running
-- Prevents commits with failing tests or lint errors
+### Git Hooks with Husky
+- Pre-commit hooks:
+  - Lint staged files
+  - Run type checking
+  - Format code
+  - Run affected tests
+- Prevents commits with:
+  - Failed tests
+  - Type errors
+  - Linting errors
+  - Formatting issues
 
-### Lint Staged
+### Lint Staged Configuration
 - Runs checks only on staged files
 - Optimizes pre-commit performance
-- Configured for:
-  - JavaScript/TypeScript files
-  - JSON files
-  - Markdown
-  - CSS
+- File type specific checks:
+  - `.ts`/`.tsx`: ESLint, Prettier, TypeScript
+  - `.js`/`.jsx`: ESLint, Prettier
+  - `.json`: Prettier
+  - `.css`: Stylelint
+  - `.md`: Markdownlint
+
+### UI Components (`components/ui/`)
+- Modern, accessible UI components
+- Built with Tailwind CSS
+- Fully typed with TypeScript
+- Components include:
+  - Button
+  - Dropdown Menu
+  - Theme Switcher
+  - Form elements
+  - And more...
+
+### Theme System (`components/theme-switcher.tsx`)
+- Built on `next-themes`
+- Multiple theme options:
+  - Light Mode
+  - Dark Mode
+  - Colored Themes: Rose, Blue, Green, Purple, Orange
+- System theme detection
+- Persistent theme selection
+- Accessible theme toggle with keyboard support
+- Smooth theme transitions
+- Icon indicators for current theme
